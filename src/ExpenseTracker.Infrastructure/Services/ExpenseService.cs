@@ -2,6 +2,7 @@ using ExpenseTracker.Core.DTOs;
 using ExpenseTracker.Core.Entities;
 using ExpenseTracker.Core.Interfaces;
 using ExpenseTracker.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseTracker.Infrastructure.Services;
 
@@ -26,6 +27,42 @@ public class ExpenseService : IExpenseService
         };
         _context.Expenses.Add(expense);
         await _context.SaveChangesAsync();
+        return new ExpenseDto
+        {
+            Id = expense.Id,
+            Amount = expense.Amount,
+            Category = expense.Category,
+            Description = expense.Description,
+            ExpenseDate = expense.ExpenseDate
+            
+        };
+    }
+
+    public async Task<IEnumerable<ExpenseDto>> GetExpensesAsync()
+    {
+        var expenses = await _context.Expenses 
+        .AsNoTracking().ToListAsync();
+
+        return expenses.Select(expense => new ExpenseDto
+        {
+            Id = expense.Id,
+            Amount = expense.Amount,
+            Category = expense.Category,
+            Description = expense.Description,
+            ExpenseDate = expense.ExpenseDate
+            
+        } 
+        );
+        
+    }
+
+    public async Task<ExpenseDto?> GetExpenseById(Guid id)
+    {
+        var expense = await _context.Expenses .AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
+        if(expense == null)
+        {
+            return null;
+        }
         return new ExpenseDto
         {
             Id = expense.Id,

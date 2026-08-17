@@ -5,5 +5,7 @@ namespace ExpenseTracker.Core.Interfaces;
 public interface IExpenseService
 {
   Task<ExpenseDto> CreateExpenseAsync(CreateExpenseDto request);
-   
+
+  Task<IEnumerable<ExpenseDto>> GetExpensesAsync();
+  Task<ExpenseDto?> GetExpenseById(Guid id) ;  
 }

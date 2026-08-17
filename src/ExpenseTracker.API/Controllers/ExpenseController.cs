@@ -16,7 +16,6 @@ public class ExpenseController: ControllerBase
     }
 
     [HttpPost]
-    
 
     public async Task<IActionResult> CreateExpense([FromBody] CreateExpenseDto request)
     {
@@ -26,6 +25,24 @@ public class ExpenseController: ControllerBase
         nameof(CreateExpense),
         new { id = expense.Id },
         expense);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetExpenses()
+    {
+        var expenses = await _expenseService.GetExpensesAsync();
+        return Ok(expenses);
+    }
+
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetExpenseById(Guid id)
+    {
+        var expense = await _expenseService.GetExpenseById(id);
+        if(expense == null)
+        {
+            return NotFound();
+        }
+        return Ok(expense);
     }
 
 }
