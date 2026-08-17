@@ -14,7 +14,7 @@ public class ExpenseService : IExpenseService
         _context = context;
     }
 
-    public async Task<Expense> CreateExpenseAsync(CreateExpenseDTO request)
+    public async Task<ExpenseDto> CreateExpenseAsync(CreateExpenseDto request)
     {
         var expense = new Expense
         {
@@ -26,6 +26,14 @@ public class ExpenseService : IExpenseService
         };
         _context.Expenses.Add(expense);
         await _context.SaveChangesAsync();
-        return expense;
+        return new ExpenseDto
+        {
+            Id = expense.Id,
+            Amount = expense.Amount,
+            Category = expense.Category,
+            Description = expense.Description,
+            ExpenseDate = expense.ExpenseDate
+            
+        };
     }
 }

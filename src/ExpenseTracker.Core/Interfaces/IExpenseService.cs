@@ -4,6 +4,6 @@ using ExpenseTracker.Core.Entities;
 namespace ExpenseTracker.Core.Interfaces;
 public interface IExpenseService
 {
-  Task<Expense> CreateExpenseAsync(CreateExpenseDTO request);
+  Task<ExpenseDto> CreateExpenseAsync(CreateExpenseDto request);
    
 }

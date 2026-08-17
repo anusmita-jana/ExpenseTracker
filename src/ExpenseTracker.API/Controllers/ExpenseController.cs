@@ -16,12 +16,16 @@ public class ExpenseController: ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateExpense(CreateExpenseDTO request)
-    {
-        var expense = await _expenseService.CreateExpenseAsync(request);
+    
 
-        return CreatedAtAction(nameof(CreateExpense),new { id = expense.Id },expense);
-        
+    public async Task<IActionResult> CreateExpense([FromBody] CreateExpenseDto request)
+    {
+       var expense = await _expenseService.CreateExpenseAsync(request);
+
+       return CreatedAtAction(
+        nameof(CreateExpense),
+        new { id = expense.Id },
+        expense);
     }
 
 }
