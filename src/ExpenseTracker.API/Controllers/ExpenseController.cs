@@ -58,4 +58,16 @@ public class ExpenseController: ControllerBase
         return Ok(expense);
     }
 
+    [HttpDelete("{id:guid}")]
+
+    public async Task<IActionResult> DeleteExpense(Guid id)
+    {
+        var deleted = await _expenseService.DeleteExpense(id);
+        if(!deleted)
+        {
+            return NotFound();
+        }
+        return NoContent();
+    }
+
 }

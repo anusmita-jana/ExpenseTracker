@@ -99,4 +99,16 @@ public class ExpenseService : IExpenseService
         };
 
     }
+
+    public async Task<bool> DeleteExpense(Guid id)
+    {
+        var expense = await _context.Expenses.FirstOrDefaultAsync(e => e.Id == id);
+        if(expense == null)
+        {
+            return false;
+        }
+        _context.Expenses.Remove(expense);
+        await _context.SaveChangesAsync();
+        return true;
+    }
 }
