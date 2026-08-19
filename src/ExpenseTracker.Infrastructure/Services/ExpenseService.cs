@@ -73,4 +73,30 @@ public class ExpenseService : IExpenseService
             
         };
     }
+
+    public async Task<ExpenseDto?> UpdateExpense(Guid id, UpdateExpenseDto request)
+    {
+        var expense = await _context.Expenses.FirstOrDefaultAsync(e => e.Id == id);
+        if(expense == null)
+        {
+            return null;
+        }
+
+        expense.Amount = request.Amount;
+        expense.Category = request.Category;
+        expense.Description = request.Description;
+
+        await _context.SaveChangesAsync();
+
+        return new ExpenseDto
+        {
+            Id = expense.Id,
+            Amount = expense.Amount,
+            Category = expense.Category,
+            Description = expense.Description,
+            ExpenseDate = expense.ExpenseDate
+            
+        };
+
+    }
 }

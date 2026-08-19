@@ -1,3 +1,4 @@
+namespace ExpenseTracker.Core.DTOs;
 public class ExpenseDto
 {
     public Guid Id{get; set;}

@@ -45,4 +45,17 @@ public class ExpenseController: ControllerBase
         return Ok(expense);
     }
 
+    [HttpPut("{id:guid}")]
+
+    public async Task<IActionResult> UpdateExpense(Guid id, UpdateExpenseDto request)
+    {
+        var expense = await _expenseService.UpdateExpense(id,request);
+        if(expense == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(expense);
+    }
+
 }

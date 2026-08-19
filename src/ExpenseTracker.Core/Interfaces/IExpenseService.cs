@@ -8,4 +8,5 @@ public interface IExpenseService
 
   Task<IEnumerable<ExpenseDto>> GetExpensesAsync();
   Task<ExpenseDto?> GetExpenseById(Guid id) ;  
+  Task<ExpenseDto?> UpdateExpense(Guid id,UpdateExpenseDto request);
 }
