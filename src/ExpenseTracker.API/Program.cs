@@ -4,6 +4,16 @@ using ExpenseTracker.Core.Interfaces;
 using ExpenseTracker.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("ReactPolicy", policy =>
+    {
+        policy
+            .WithOrigins("http://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 
 builder.Services.AddControllers();
 
@@ -28,6 +38,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseCors("ReactPolicy");
+
+app.UseAuthorization();
+
 
 var summaries = new[]
 {
