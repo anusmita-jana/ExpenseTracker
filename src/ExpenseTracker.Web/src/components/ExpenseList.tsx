@@ -5,20 +5,31 @@ import ExpenseCard from "./ExpenseCard";
 
 function ExpenseList() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     getExpenses()
-      .then((data) => setExpenses(data))
-      .catch((error) =>
-        console.error("Error fetching expenses:", error)
-      );
+      .then((data) => {
+        setExpenses(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching expenses:", error);
+        setError("Failed to load expenses.");
+        setLoading(false);
+      });
   }, []);
 
   return (
     <div>
       <h2>Expenses</h2>
 
-      {expenses.length === 0 ? (
+      {loading ? (
+        <p>Loading expenses...</p>
+      ) : error ? (
+        <p>{error}</p>
+      ) : expenses.length === 0 ? (
         <p>No expenses found.</p>
       ) : (
         <ul>
